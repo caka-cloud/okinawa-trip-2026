@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>沖繩親子旅遊 APP 行程版｜餐廳更新版</title>
+<style>
+:root{--bg:#f4f6f8;--card:#fff;--main:#2d6d83;--soft:#e7f2f6;--text:#222;--muted:#666;--line:#e8e8e8;--food:#fff0e8}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--text)}
+header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);padding:14px 16px;border-bottom:1px solid var(--line)}
+header h1{margin:0;font-size:20px}.sub{margin-top:4px;color:var(--muted);font-size:13px}
+.top-buttons{display:flex;gap:8px;overflow:auto;padding:12px 16px 0}.top-buttons a,.buttons a{white-space:nowrap;text-decoration:none;color:white;background:var(--main);padding:10px 14px;border-radius:999px;font-weight:700;font-size:14px}.top-buttons a.secondary,.buttons a.gray{background:#666}
+.intro,.footer-card{margin:16px;background:white;border-radius:18px;padding:16px;box-shadow:0 3px 10px rgba(0,0,0,.06)}
+.intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.intro-box{background:var(--soft);border-radius:14px;padding:12px;font-size:14px}
+.swipe-hint{padding:0 16px;color:#666;font-size:13px}.days{display:flex;overflow-x:auto;gap:16px;padding:14px 16px 28px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.day{flex:0 0 90vw;max-width:540px;background:var(--card);border-radius:24px;overflow:hidden;scroll-snap-align:start;box-shadow:0 4px 18px rgba(0,0,0,.08)}
+.day-head{background:linear-gradient(135deg,#e8f4f7,#fff8eb);padding:18px}.day-title{font-size:22px;font-weight:800;margin-bottom:6px}.day-route{color:#4f6168;font-size:14px}.hero{width:100%;height:220px;border:0;display:block}
+.section{padding:16px}.timecard{display:grid;grid-template-columns:72px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid #eee}.timecard:last-child{border-bottom:none}.time{font-weight:800;color:var(--main);font-size:14px}
+.place{font-size:17px;font-weight:800;margin-bottom:6px}.place a{color:#154d66;text-decoration:none}.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}.tag{font-size:12px;padding:4px 8px;border-radius:999px;background:#eef4ff;color:#355}.tag.sleep{background:#fff0d8}.tag.stroller{background:#f1edff}.tag.food{background:#ffe8dc}.tag.must{background:#ffe1e1}.tag.reserve{background:#fff1b8}.tag.backup{background:#eee}
+.desc{font-size:14px;color:#555;line-height:1.55}.foodbox{background:var(--food);border-radius:16px;padding:12px;margin:12px 0}.backupbox{background:#f8f8f8;border-radius:16px;padding:12px;margin:12px 0;border:1px dashed #ccc}.foodbox strong,.backupbox strong{display:block;margin-bottom:6px}.buttons{display:flex;gap:8px;overflow:auto;padding:0 16px 18px}
+.footer{padding:8px 0 80px}.restaurant-grid{display:grid;grid-template-columns:1fr;gap:10px}.restaurant{background:#fff;border:1px solid #eee;border-radius:14px;padding:12px}.restaurant a{font-weight:800;color:#154d66;text-decoration:none}.small{font-size:13px;color:#666;margin-top:4px}ul{padding-left:18px}li{margin-bottom:8px}
+@media (min-width:900px){.day{flex-basis:540px}.hero{height:260px}.restaurant-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header><h1>沖繩五天四夜親子旅遊</h1><div class="sub">2026/6/3–6/7｜2大＋4歲＋1歲半｜景點＋餐廳更新版</div></header>
+<div class="top-buttons">
+<a target="_blank" href="https://www.google.com/maps/dir/Naha+Airport/teamLab+Future+Park+Okinawa/Lucky+Maximum+Okinawa/American+Village+Okinawa/Okinawa+Churaumi+Aquarium/KOURI+SHRIMP/AEON+Mall+Okinawa+Rycom/Senaga+Island+Umikaji+Terrace/Naha+Airport/">全行程導航</a>
+<a class="secondary" target="_blank" href="https://www.google.com/maps/search/Lucky+Maximum+Okinawa/">Lucky Maximum</a>
+<a class="secondary" target="_blank" href="https://www.google.com/maps/search/AEON+Mall+Okinawa+Rycom/">Rycom購物</a>
+</div>
+
+<section class="intro">
+<strong>這版更新重點</strong>
+<div style="margin-top:8px;color:#555;font-size:14px;">已把熱門餐廳依距離放進每日行程；可刪減景點改成備案，不再硬塞。</div>
+<div class="intro-grid">
+<div class="intro-box">🍚 必排餐廳<br>Lucky Maximum</div><div class="intro-box">🦐 北部午餐<br>KOURI SHRIMP 蝦蝦飯</div>
+<div class="intro-box">🥩 預約型餐廳<br>Onnaton／琉球の牛</div><div class="intro-box">📌 備案行程<br>翡翠海灘／夜燈／Outlet／瀨長島</div>
+</div>
+</section>
+<div class="swipe-hint">👉 左右滑動查看每日行程卡片</div>
+<section class="days">
+
+<article class="day">
+<div class="day-head"><div class="day-title">Day 1｜抵達＋teamLab＋國際通美食</div><div class="day-route">那霸機場 → teamLab → Lucky Maximum → 北谷</div></div>
+<iframe class="hero" src="https://www.google.com/maps?q=Lucky%20Maximum%20Okinawa&output=embed"></iframe>
+<div class="section">
+<div class="timecard"><div class="time">10:30</div><div><div class="place"><a target="_blank" href="https://www.google.com/maps/search/Naha+Airport/">抵達那霸機場</a></div><div class="tags"><span class="tag">國際線</span></div><div class="desc">入境、領行李、前往租車公司。</div></div></div>
+<div class="timecard"><div class="time">10:30<br>–12:00</div><div><div class="place">取車流程</div><div class="tags"><span class="tag">約90分鐘</span></div><div class="desc">帶小孩建議保守抓時間，第一天不要排太硬。</div></div></div>
+<div class="timecard"><div class="time">12:10<br>–13:10</div><div><div class="place"><a target="_blank" href="https://www.google.com/maps/search/San-A+Naha+Main+Place/">新都心 San-A／DFS 午餐</a></div><div class="tags"><span class="tag food">午餐</span><span class="tag stroller">推車友善</span></div><div class="desc">先簡單吃，讓小孩穩定。</div></div></div>
+<div class="timecard"><div class="time">13:10<br>–14:40</div><div><div class="place">午睡時間</div><div class="tags"><span class="tag sleep">90分鐘</span></div><div class="desc">可車上午睡或附近停車休息。</div></div></div>
+<div class="timecard"><div class="time">15:00<br>–16:30</div><div><div class="place"><a target="_blank" href="https://www.google.com/maps/search/teamLab+Future+Park+Okinawa/">teamLab Future Park Okinawa</a></div><div class="tags"><span class="tag">停留1.5hr</span><span class="tag stroller">室內</span></div><div class="desc">4歲小孩會很有參與感；雨天也適合。</div></div></div>
+<div class="foodbox"><strong>晚餐推薦｜必排</strong><div class="place"><a target="_blank" href="https://www.google.com/maps/search/Lucky+Maximum+Okinawa/">Lucky Maximum</a></div><div class="tags"><span class="tag must">必吃</span><span class="tag food">國際通</span><span class="tag">QR點餐</span></div><div class="desc">建議點：濃乳酪燉飯、怪怪的烤玉米、墨魚燉飯、土豆沙拉、烤牛舌。路線：teamLab → Lucky Maximum 約15–25分車程；吃完再回北谷約40–50分。</div></div>
+<div class="backupbox"><strong>甜點備案</strong><div class="place"><a target="_blank" href="https://www.google.com/maps/search/Midnight+Sweets+Okinawa/">Midnight Sweets</a></div><div class="tags"><span class="tag backup">備案</span><span class="tag food">舒芙蕾鬆餅</span></div><div class="desc">如果小孩還有體力，可在國際通吃完晚餐後買甜點；若太累就直接回北谷。</div></div>
+</div><div class="buttons"><a target="_blank" href="https://www.google.com/maps/dir/Naha+Airport/teamLab+Future+Park+Okinawa/Lucky+Maximum+Okinawa/American+Village+Okinawa/">Day1導航</a></div>
+</article>
+
+<article class="day">
+<div class="day-head"><div class="day-title">Day 2｜美麗海＋蝦蝦飯</div><div class="day-route">北谷 → 美麗海 → KOURI SHRIMP → 北谷</div></div>
+<iframe class="hero" src="https://www.google.com/maps?q=KOURI%20SHRIMP%20Okinawa&output=embed"></iframe>
+<div class="section">
+<div class="timecard"><div class="time">09:00<br>–10:30</div><div><div class="place"><a target="_blank" href="https://www.google.com/maps/search/Okinawa+Churaumi+Aquarium/">前往美麗海水族館</a></div><div class="tags"><span class="tag">車程80–90分</span></div><div class="desc">平日去比週末舒服，這天以北部為主。</div></div></div>
+<div class="timecard"><div class="time">10:30<br>–12:30</div><div><div class="place"><a target="_blank" href="https://www.google.com/maps/search/Okinawa+Churaumi+Aquarium/">美麗海水族館</a></div><div class="tags"><span class="tag">停留2hr</span><span class="tag stroller">推車佳</span></div><div class="desc">不要逛到太晚，後面還要吃午餐和午睡。</div></div></div>
+<div class="foodbox"><strong>午餐推薦｜北部順路</strong><div class="place"><a target="_blank" href="https://www.google.com/maps/search/KOURI+SHRIMP+Okinawa/">KOURI SHRIMP 古宇利蝦蝦飯</a></div><div class="tags"><span class="tag must">推薦</span><span class="tag food">蝦蝦飯</span></div><div class="desc">路程：美麗海 → KOURI SHRIMP 約30–40分。建議停留60分。小孩可吃白飯、蝦、玉米類餐點。</div></div>
+<div class="timecard"><div class="time">14:00<br>–15:30</div><div><div class="place">車上午睡</div><div class="tags"><span class="tag sleep">90分鐘</span></div><div class="desc">可從古宇利島往北谷方向開，讓小孩自然睡。</div></div></div>
+<div class="backupbox"><strong>備案行程｜看體力二選一</strong><div class="place"><a target="_blank" href="https://www.google.com/maps/search/Emerald+Beach+Okinawa/">翡翠海灘</a>／<a target="_blank" href="https://www.google.com/maps/search/Kouri+Ocean+Tower/">古宇利島短停</a></div><div class="tags"><span class="tag backup">備案</span><span class="tag">玩沙或看海</span></div><div class="desc">小孩有體力才去。若午睡睡很熟，直接回北谷最舒服。</div></div>
+<div class="foodbox"><strong>晚餐推薦｜需預約</strong><div class="place"><a target="_blank" href="https://www.google.com/maps/search/Onnaton+Okinawa/">Onnaton 恩納豚</a></div><div class="tags"><span class="tag reserve">建議預約</span><span class="tag food">豬肉料理</span></div><div class="desc">若當晚想吃好一點，可排在回程經過恩納村附近。帶小孩建議提前預約。</div></div>
+</div><div class="buttons"><a target="_blank" href="https://www.google.com/maps/dir/American+Village+Okinawa/Okinawa+Churaumi+Aquarium/KOURI+SHRIMP/American+Village+Okinawa/">Day2導航</a></div>
+</article>
+
+<article class="day">
+<div class="day-head"><div class="day-title">Day 3｜兒童王國＋Rycom＋備案夜燈</div><div class="day-route">北谷 → 兒童王國 → Rycom → 可選夜燈</div></div>
+<iframe class="hero" src="https://www.google.com/maps?q=AEON%20Mall%20Okinawa%20Rycom&output=embed"></iframe>
+<div class="section">
+<div class="timecard"><div class="time">10:15<br>–12:30</div><div><div class="place"><a target="_blank" href="https://www.google.com/maps/search/Okinawa+Zoo+%26+Museum/">沖繩兒童王國</a></div><div class="tags"><span class="tag">停留2hr</span><span class="tag stroller">可推車</span></div><div class="desc">上午放電，記得防曬補水。</div></div></div>
+<div class="timecard"><div class="time">12:30<br>–13:30</div><div><div class="place"><a target="_blank" href="https://www.google.com/maps/search/AEON+Mall+Okinawa+Rycom/">Rycom 午餐</a></div><div class="tags"><span class="tag food">餐廳多</span><span class="tag stroller">推車佳</span></div><div class="desc">兒童王國到 Rycom 約15–20分，最適合幼兒午餐。</div></div></div>
+<div class="timecard"><div class="time">13:30<br>–15:00</div><div><div class="place">午睡時間</div><div class="tags"><span class="tag sleep">90分鐘</span></div><div class="desc">大人可輪流購物。</div></div></div>
+<div class="timecard"><div class="time">15:00<br>–17:00</div><div><div class="place"><a target="_blank" href="https://www.google.com/maps/search/AEON+Mall+Okinawa+Rycom/">AEON Rycom 購物</a></div><div class="tags"><span class="tag must">日系童裝</span><span class="tag">阿卡將</span><span class="tag">西松屋</span><span class="tag">玩具反斗城</span></div><div class="desc">這裡比 Outlet 更符合你喜歡的童裝和玩具。</div></div></div>
+<div class="foodbox"><strong>晚餐推薦｜輕鬆型</strong><div class="place"><a target="_blank" href="https://www.google.com/maps/search/Danbo+Ramen+Okinawa/">暖暮拉麵</a> 或 Rycom 餐廳</div><div class="tags"><span class="tag food">出餐快</span><span class="tag">小孩友善</span></div><div class="desc">暖暮適合當「不想排高級餐廳」的穩定選擇；若小孩累，直接在 Rycom 吃最省力。</div></div>
+<div class="backupbox"><strong>備案行程｜可刪減</strong><div class="place"><a target="_blank" href="https://www.google.com/maps/search/Southeast+Botanical+Gardens+Okinawa/">東南植物樂園夜間燈光</a></div><div class="tags"><span class="tag backup">備案</span><span class="tag">童話燈光</span></div><div class="desc">Rycom → 東南植物樂園約20–25分；若小孩精神好再去，太累就取消。</div></div>
+</div><div class="buttons"><a target="_blank" href="https://www.google.com/maps/dir/American+Village+Okinawa/Okinawa+Zoo+%26+Museum/AEON+Mall+Okinawa+Rycom/American+Village+Okinawa/">Day3基本導航</a><a class="gray" target="_blank" href="https://www.google.com/maps/dir/AEON+Mall+Okinawa+Rycom/Southeast+Botanical+Gardens/American+Village+Okinawa/">夜燈備案</a></div>
+</article>
+
+<article class="day">
+<div class="day-head"><div class="day-title">Day 4｜美國村慢活＋燒肉</div><div class="day-route">美國村＋Sunset Beach＋琉球の牛</div></div>
+<iframe class="hero" src="https://www.google.com/maps?q=American%20Village%20Okinawa&output=embed"></iframe>
+<div class="section">
+<div class="timecard"><div class="time">10:00<br>–12:00</div><div><div class="place"><a target="_blank" href="https://www.google.com/maps/search/American+Village+Okinawa/">美國村慢慢逛</a></div><div class="tags"><span class="tag">小店</span><span class="tag">扭蛋</span><span class="tag stroller">推車佳</span></div><div class="desc">週六人會比較多，早點逛較舒服。</div></div></div>
+<div class="timecard"><div class="time">12:00<br>–13:00</div><div><div class="place">午餐：美國村周邊</div><div class="tags"><span class="tag food">彈性</span></div><div class="desc">這天不建議午餐吃太重，晚上可排燒肉。</div></div></div>
+<div class="timecard"><div class="time">13:00<br>–15:00</div><div><div class="place">回飯店午睡</div><div class="tags"><span class="tag sleep">睡飽很重要</span></div><div class="desc">第四天小孩最容易累，建議真的睡飽。</div></div></div>
+<div class="backupbox"><strong>備案行程｜看體力</strong><div class="place"><a target="_blank" href="https://www.google.com/maps/search/Sunset+Beach+Chatan/">Sunset Beach</a></div><div class="tags"><span class="tag backup">備案</span><span class="tag">玩沙看海</span></div><div class="desc">若天氣好、孩子有體力，15:30後去最舒服。</div></div>
+<div class="foodbox"><strong>晚餐推薦｜需預約</strong><div class="place"><a target="_blank" href="https://www.google.com/maps/search/Ryukyu+no+Ushi+Chatan/">琉球の牛</a></div><div class="tags"><span class="tag reserve">一定要預約</span><span class="tag food">燒肉</span></div><div class="desc">建議排 Day4 晚餐，因為這天最放鬆；小孩睡飽後比較能坐得住。</div></div>
+<div class="backupbox"><strong>餐廳備案</strong><div class="place"><a target="_blank" href="https://www.google.com/maps/search/Diver's+Steak+Okinawa/">潛水員牛排</a>／<a target="_blank" href="https://www.google.com/maps/search/Isshin+no+Niku+Okinawa/">一心の肉壽喜燒</a></div><div class="tags"><span class="tag backup">備案</span></div><div class="desc">潛水員牛排適合想吃美式牛排；一心の肉壽喜燒用餐時間較長，帶幼兒不一定最輕鬆。</div></div>
+</div><div class="buttons"><a target="_blank" href="https://www.google.com/maps/dir/American+Village+Okinawa/Sunset+Beach+Chatan/Ryukyu+no+Ushi+Chatan/">Day4導航</a></div>
+</article>
+
+<article class="day">
+<div class="day-head"><div class="day-title">Day 5｜童裝玩具＋返程</div><div class="day-route">北谷 → Rycom／Outlet備案 → 瀨長島 → 機場</div></div>
+<iframe class="hero" src="https://www.google.com/maps?q=Senaga%20Island%20Umikaji%20Terrace&output=embed"></iframe>
+<div class="section">
+<div class="timecard"><div class="time">08:30<br>–09:30</div><div><div class="place">早餐＋整理行李退房</div><div class="tags"><span class="tag">行李上車</span></div><div class="desc">18:00飛機，但還是要保留還車緩衝。</div></div></div>
+<div class="timecard"><div class="time">10:15<br>–12:30</div><div><div class="place"><a target="_blank" href="https://www.google.com/maps/search/AEON+Mall+Okinawa+Rycom/">Rycom 最後採買</a></div><div class="tags"><span class="tag must">童裝</span><span class="tag">玩具</span><span class="tag stroller">親子商場</span></div><div class="desc">最適合買日系童裝、嬰幼兒用品、玩具。</div></div></div>
+<div class="backupbox"><strong>購物備案｜如果 Rycom 已買夠</strong><div class="place"><a target="_blank" href="https://www.google.com/maps/search/Okinawa+Outlet+Mall+Ashibinaa/">Ashibinaa Outlet</a>＋<a target="_blank" href="https://www.google.com/maps/search/iias+Okinawa+Toyosaki/">iias Okinawa Toyosaki</a></div><div class="tags"><span class="tag backup">備案</span><span class="tag">機場附近</span></div><div class="desc">比較靠近機場，適合最後補買與午餐。</div></div>
+<div class="timecard"><div class="time">13:30<br>–15:00</div><div><div class="place">車上午睡往南移動</div><div class="tags"><span class="tag sleep">90分鐘</span></div><div class="desc">Rycom → 瀨長島約45–55分。</div></div></div>
+<div class="backupbox"><strong>備案行程｜可刪減</strong><div class="place"><a target="_blank" href="https://www.google.com/maps/search/Senaga+Island+Umikaji+Terrace/">瀨長島 Umikaji Terrace</a></div><div class="tags"><span class="tag backup">備案</span><span class="tag">看海</span></div><div class="desc">時間充足再去；如果還車時間緊，直接去還車最安全。</div></div>
+<div class="timecard"><div class="time">16:00<br>–17:00</div><div><div class="place"><a target="_blank" href="https://www.google.com/maps/search/Naha+Airport/">還車＋那霸機場</a></div><div class="tags"><span class="tag">18:00班機</span></div><div class="desc">建議16:30前完成還車流程，不要壓線。</div></div></div>
+</div><div class="buttons"><a target="_blank" href="https://www.google.com/maps/dir/American+Village+Okinawa/AEON+Mall+Okinawa+Rycom/Senaga+Island+Umikaji+Terrace/Naha+Airport/">Day5導航</a><a class="gray" target="_blank" href="https://www.google.com/maps/dir/American+Village+Okinawa/Okinawa+Outlet+Mall+Ashibinaa/iias+Okinawa+Toyosaki/Naha+Airport/">Outlet備案</a></div>
+</article>
+
+</section>
+
+<section class="footer">
+<div class="footer-card"><h2>餐廳總整理</h2><div class="restaurant-grid">
+<div class="restaurant"><a target="_blank" href="https://www.google.com/maps/search/Lucky+Maximum+Okinawa/">Lucky Maximum</a><div class="small">Day1晚餐。必點乳酪燉飯、烤玉米、墨魚燉飯、牛舌。</div></div>
+<div class="restaurant"><a target="_blank" href="https://www.google.com/maps/search/Midnight+Sweets+Okinawa/">Midnight Sweets</a><div class="small">Day1甜點備案。舒芙蕾鬆餅，若孩子還有體力再去。</div></div>
+<div class="restaurant"><a target="_blank" href="https://www.google.com/maps/search/KOURI+SHRIMP+Okinawa/">KOURI SHRIMP</a><div class="small">Day2午餐。美麗海後順路去古宇利島。</div></div>
+<div class="restaurant"><a target="_blank" href="https://www.google.com/maps/search/Onnaton+Okinawa/">Onnaton 恩納豚</a><div class="small">Day2晚餐候選。建議預約。</div></div>
+<div class="restaurant"><a target="_blank" href="https://www.google.com/maps/search/Danbo+Ramen+Okinawa/">暖暮拉麵</a><div class="small">Day3晚餐備案。出餐快、穩定、小孩友善。</div></div>
+<div class="restaurant"><a target="_blank" href="https://www.google.com/maps/search/Ryukyu+no+Ushi+Chatan/">琉球の牛</a><div class="small">Day4晚餐。週六晚餐務必預約。</div></div>
+</div></div>
+
+<div class="footer-card"><h2>可刪減／備案行程</h2><ul>
+<li>翡翠海灘：Day2美麗海後若小孩還有體力才去。</li>
+<li>東南植物樂園夜燈：Day3若小孩精神好再去。</li>
+<li>Sunset Beach：Day4下午備案，天氣好再玩沙。</li>
+<li>瀨長島：Day5時間足夠再去，不要影響還車。</li>
+<li>Outlet＋iias：Day5若不想再去 Rycom，可改機場附近購物。</li>
+</ul></div>
+
+<div class="footer-card"><h2>手機使用建議</h2><ul>
+<li>iPhone 建議用 Safari 開啟。</li>
+<li>Android 建議用 Chrome 開啟。</li>
+<li>每日卡片可左右滑動。</li>
+<li>景點與餐廳名稱都可直接點進 Google Maps。</li>
+<li>分享給家人建議用 Netlify Drop 或 Google Drive。</li>
+</ul></div>
+</section>
+</body>
+</html>
