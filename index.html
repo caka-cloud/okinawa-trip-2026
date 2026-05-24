@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>notte · HTML 預覽</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #1a1a1a;
+      --muted: #6b7280;
+      --card: #f9fafb;
+      --card-hover: #f3f4f6;
+      --border: #e5e7eb;
+      --accent: #2563eb;
+      --hidden: #9ca3af;
+      --danger: #dc2626;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f172a;
+        --fg: #f1f5f9;
+        --muted: #94a3b8;
+        --card: #1e293b;
+        --card-hover: #334155;
+        --border: #334155;
+        --accent: #60a5fa;
+        --hidden: #64748b;
+        --danger: #f87171;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      padding: 2rem 1rem;
+      line-height: 1.6;
+    }
+    .container { max-width: 820px; margin: 0 auto; }
+    header { margin-bottom: 1.75rem; }
+    h1 { font-size: 1.75rem; margin-bottom: 0.25rem; }
+    .subtitle { color: var(--muted); font-size: 0.9rem; }
+    .controls {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+      align-items: center;
+    }
+    .search {
+      flex: 1;
+      min-width: 200px;
+      padding: 0.6rem 0.9rem;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--fg);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+    .search:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: transparent; }
+    select {
+      padding: 0.6rem 0.9rem;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--fg);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      cursor: pointer;
+      user-select: none;
+      padding: 0.6rem 0.9rem;
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+    .toggle input { cursor: pointer; accent-color: var(--accent); }
+    .stats { color: var(--muted); font-size: 0.85rem; margin-bottom: 0.6rem; }
+    .file-list { display: flex; flex-direction: column; gap: 0.45rem; }
+    .file-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.85rem 1rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--fg);
+      transition: background 0.15s ease, transform 0.15s ease;
+    }
+    .file-item:hover {
+      background: var(--card-hover);
+      transform: translateX(2px);
+    }
+    .file-item.is-hidden .file-name { color: var(--hidden); }
+    .file-name {
+      font-weight: 500;
+      word-break: break-all;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .badge {
+      font-size: 0.7rem;
+      color: var(--hidden);
+      padding: 0.1rem 0.45rem;
+      border: 1px solid var(--hidden);
+      border-radius: 4px;
+      font-weight: normal;
+    }
+    .file-meta {
+      color: var(--muted);
+      font-size: 0.8rem;
+      white-space: nowrap;
+      margin-left: 1rem;
+    }
+    .empty, .loading, .error {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--muted);
+    }
+    .error { color: var(--danger); }
+    footer {
+      margin-top: 2.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📂 notte</h1>
+      <p class="subtitle">點擊任一檔案開啟預覽</p>
+    </header>
+
+    <div class="controls">
+      <input type="text" class="search" id="search" placeholder="🔍 搜尋檔名...">
+      <select id="sort" aria-label="排序方式">
+        <option value="name-asc">名稱 A→Z</option>
+        <option value="name-desc">名稱 Z→A</option>
+        <option value="size-desc">大小 (大→小)</option>
+        <option value="size-asc">大小 (小→大)</option>
+      </select>
+      <label class="toggle" title="顯示開頭為底線的隱藏檔案">
+        <input type="checkbox" id="show-hidden">
+        顯示隱藏
+      </label>
+    </div>
+
+    <div class="stats" id="stats"></div>
+    <div id="content">
+      <div class="loading">載入中...</div>
+    </div>
+
+    <footer>
+      <a href="https://github.com/caka-cloud/notte" target="_blank" rel="noopener">View on GitHub</a>
+    </footer>
+  </div>
+
+  <script>
+    const OWNER = 'caka-cloud';
+    const REPO = 'notte';
+    const BRANCH = 'main';
+    const API = `https://api.github.com/repos/${OWNER}/${REPO}/contents/?ref=${BRANCH}`;
+    const PAGES_BASE = `https://${OWNER}.github.io/${REPO}/`;
+
+    const $ = (id) => document.getElementById(id);
+    const content = $('content');
+    const stats = $('stats');
+    const search = $('search');
+    const sort = $('sort');
+    const showHidden = $('show-hidden');
+
+    showHidden.checked = localStorage.getItem('showHidden') === 'true';
+    sort.value = localStorage.getItem('sortBy') || 'name-asc';
+
+    let allFiles = [];
+
+    function formatSize(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / 1024 / 1024).toFixed(2) + ' MB';
+    }
+
+    function escapeHtml(s) {
+      return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    function render() {
+      const q = search.value.trim().toLowerCase();
+      const sortBy = sort.value;
+      const showH = showHidden.checked;
+
+      let files = allFiles.filter(f => {
+        if (q && !f.name.toLowerCase().includes(q)) return false;
+        if (!showH && f.name.startsWith('_')) return false;
+        return true;
+      });
+
+      files.sort((a, b) => {
+        switch (sortBy) {
+          case 'name-asc': return a.name.localeCompare(b.name);
+          case 'name-desc': return b.name.localeCompare(a.name);
+          case 'size-asc': return a.size - b.size;
+          case 'size-desc': return b.size - a.size;
+        }
+        return 0;
+      });
+
+      const total = allFiles.length;
+      const hiddenCount = allFiles.filter(f => f.name.startsWith('_')).length;
+      stats.textContent = `共 ${total} 個 HTML 檔案${hiddenCount ? ` (${hiddenCount} 個隱藏)` : ''}`;
+
+      if (files.length === 0) {
+        content.innerHTML = '<div class="empty">沒有找到符合的檔案</div>';
+        return;
+      }
+
+      content.innerHTML = '<div class="file-list">' + files.map(f => {
+        const hidden = f.name.startsWith('_');
+        const displayName = hidden ? f.name.slice(1) : f.name;
+        return `<a href="${PAGES_BASE}${encodeURIComponent(f.name)}" class="file-item ${hidden ? 'is-hidden' : ''}">
+          <span class="file-name">${escapeHtml(displayName)}${hidden ? '<span class="badge">隱藏</span>' : ''}</span>
+          <span class="file-meta">${formatSize(f.size)}</span>
+        </a>`;
+      }).join('') + '</div>';
+    }
+
+    async function load() {
+      try {
+        const res = await fetch(API);
+        if (!res.ok) {
+          if (res.status === 403) throw new Error('GitHub API 達到呼叫上限,請稍後再試 (約 1 小時後恢復)');
+          if (res.status === 404) throw new Error('找不到 repo,請確認 owner / name / branch 設定');
+          throw new Error(`API 錯誤: ${res.status}`);
+        }
+        const data = await res.json();
+        allFiles = data.filter(item =>
+          item.type === 'file' &&
+          item.name.toLowerCase().endsWith('.html') &&
+          item.name.toLowerCase() !== 'index.html'
+        );
+        render();
+      } catch (err) {
+        stats.textContent = '';
+        content.innerHTML = `<div class="error">❌ ${escapeHtml(err.message)}</div>`;
+      }
+    }
+
+    search.addEventListener('input', render);
+    sort.addEventListener('change', () => {
+      localStorage.setItem('sortBy', sort.value);
+      render();
+    });
+    showHidden.addEventListener('change', () => {
+      localStorage.setItem('showHidden', showHidden.checked);
+      render();
+    });
+
+    load();
+  </script>
+</body>
+</html>
