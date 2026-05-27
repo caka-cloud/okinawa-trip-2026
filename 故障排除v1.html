@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>溫塑機故障排除選擇指南</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif;
+      background: #f6f7f9;
+      margin: 0;
+      color: #222;
+      line-height: 1.7;
+    }
+    .wrap {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.06);
+      margin-bottom: 18px;
+    }
+    h1 {
+      font-size: 26px;
+      margin: 0 0 8px;
+    }
+    h2 {
+      font-size: 21px;
+      margin: 0 0 12px;
+    }
+    .code {
+      display: inline-block;
+      background: #111;
+      color: #fff;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 13px;
+      margin-right: 6px;
+      letter-spacing: .3px;
+    }
+    .desc {
+      color: #666;
+      font-size: 15px;
+    }
+    .options {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    button {
+      border: 1px solid #ddd;
+      background: #fff;
+      border-radius: 14px;
+      padding: 14px 16px;
+      text-align: left;
+      font-size: 16px;
+      cursor: pointer;
+      transition: .15s;
+    }
+    button:hover {
+      background: #f0f2f5;
+      border-color: #bbb;
+    }
+    .danger {
+      background: #fff4f4;
+      border-left: 5px solid #d9534f;
+    }
+    .ok {
+      background: #f2fff6;
+      border-left: 5px solid #3ca66b;
+    }
+    .warn {
+      background: #fffaf0;
+      border-left: 5px solid #f0ad4e;
+    }
+    .result {
+      font-weight: 700;
+      font-size: 18px;
+      margin-top: 8px;
+    }
+    .path {
+      font-size: 14px;
+      color: #777;
+      margin-top: 10px;
+      word-break: break-word;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+    .small {
+      font-size: 14px;
+      color: #555;
+    }
+    .primary {
+      background: #111;
+      color: white;
+      border-color: #111;
+    }
+    .muted {
+      background: #f7f7f7;
+    }
+    ul {
+      padding-left: 20px;
+      margin: 8px 0;
+    }
+    .note {
+      background: #f8f8f8;
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 12px;
+      font-size: 14px;
+      color: #555;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .copybox {
+      width: 100%;
+      min-height: 68px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 10px;
+      box-sizing: border-box;
+      font-size: 14px;
+      color: #333;
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="topbar">
+        <div>
+          <h1>溫塑機／燙髮捲心故障排除選擇指南</h1>
+          <div class="desc">請依照問題狀況點選，系統會引導判斷：主機、開關、保險絲、A/B區接口、線材或捲心本體。</div>
+        </div>
+        <button class="muted" onclick="restart()">重新開始</button>
+      </div>
+    </div>
+
+    <div id="app" class="card"></div>
+
+    <div class="card">
+      <h2>客服紀錄</h2>
+      <textarea id="record" class="copybox" readonly></textarea>
+      <div class="actions">
+        <button onclick="copyRecord()">複製紀錄</button>
+        <button onclick="restart()">清除並重新判斷</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+const nodes = {
+  START: {
+    code: "S0",
+    title: "開始檢查",
+    text: "請先確認產品已插電，電源線與主機連接正常。",
+    options: [
+      ["P1", "插電後，主機完全沒有反應／沒有亮燈"],
+      ["P2", "主機有亮燈，但捲心不熱"],
+      ["P3", "主機有亮燈，只有部分捲心不熱"],
+      ["P4", "使用中突然斷電或停止加熱"]
+    ]
+  },
+
+  P1: {
+    code: "P1",
+    title: "主機完全無反應",
+    text: "先判斷是否為外部供電問題。",
+    options: [
+      ["P1_1", "已換插座測試，仍無反應"],
+      ["R_P1_SOCKET", "換插座後恢復正常"],
+      ["P1_2", "電源線疑似鬆脫、破損或接觸不良"]
+    ]
+  },
+  P1_1: {
+    code: "P1-01",
+    title: "排除插座後仍無反應",
+    text: "可能集中在主機供電端、開關按鈕或保險絲。",
+    options: [
+      ["R_MAIN_FUSE", "檢查主機保險絲後發現燒毀／鬆脫"],
+      ["R_SWITCH", "開關按鈕卡住、鬆動或切換無反應"],
+      ["R_REPAIR_MAIN", "以上都無法確認，建議送修檢測"]
+    ]
+  },
+  P1_2: {
+    code: "P1-02",
+    title: "電源線異常",
+    text: "請檢查電線是否折損、壓傷、插頭鬆動或有焦味。",
+    options: [
+      ["R_POWER_CORD", "電線或插頭異常"],
+      ["R_REPAIR_MAIN", "外觀看不出異常，但仍無法通電"]
+    ]
+  },
+
+  P2: {
+    code: "P2",
+    title: "主機有亮燈，但全部不熱",
+    text: "代表主電可能正常，但加熱輸出端異常。",
+    options: [
+      ["P2_A", "A區與B區全部都不熱"],
+      ["P2_B", "只有A區全部不熱"],
+      ["P2_C", "只有B區全部不熱"]
+    ]
+  },
+  P2_A: {
+    code: "P2-01",
+    title: "A/B區全部不熱",
+    text: "若燈號正常但兩區都不熱，可能是主輸出、主控板或總保險絲問題。",
+    options: [
+      ["R_REPAIR_MAIN_HEAT", "建議送修檢測主控板／總輸出"],
+      ["R_MAIN_FUSE", "檢查主保險絲後發現異常"]
+    ]
+  },
+  P2_B: {
+    code: "A0",
+    title: "A區全部不熱",
+    text: "請先檢查A區2顆保險絲，再判斷A區輸出。",
+    options: [
+      ["R_A_FUSE", "A區保險絲燒毀／鬆脫"],
+      ["R_A_ZONE", "A區4條線全部不熱，保險絲看似正常"]
+    ]
+  },
+  P2_C: {
+    code: "B0",
+    title: "B區全部不熱",
+    text: "請先檢查B區2顆保險絲，再判斷B區輸出。",
+    options: [
+      ["R_B_FUSE", "B區保險絲燒毀／鬆脫"],
+      ["R_B_ZONE", "B區4條線全部不熱，保險絲看似正常"]
+    ]
+  },
+
+  P3: {
+    code: "P3",
+    title: "只有部分捲心不熱",
+    text: "請使用交叉測試法，判斷是孔位、線材，還是捲心本體。",
+    options: [
+      ["A1", "A區其中一條／某一顆捲心不熱"],
+      ["B1", "B區其中一條／某一顆捲心不熱"],
+      ["MIX1", "A/B兩區都有零星捲心不熱"]
+    ]
+  },
+
+  A1: {
+    code: "A1",
+    title: "A區單點異常",
+    text: "請將不熱的A區捲心，改插到B區正常孔位測試。",
+    options: [
+      ["R_A_PORT", "插到B區後會熱，代表原A區孔位／接口異常"],
+      ["A1_2", "插到B區後仍不熱"],
+      ["A1_3", "換另一條線後恢復正常"]
+    ]
+  },
+  A1_2: {
+    code: "A1-01",
+    title: "換孔後仍不熱",
+    text: "請再拿一顆已確認會熱的捲心，插回原A區孔位測試。",
+    options: [
+      ["R_ROD", "正常捲心會熱，代表原捲心本體故障"],
+      ["R_A_PORT", "正常捲心也不熱，代表A區孔位／接口故障"]
+    ]
+  },
+  A1_3: {
+    code: "A1-02",
+    title: "換線後恢復",
+    text: "問題多半在線材或分接頭。",
+    options: [
+      ["R_CABLE", "判定為線材／分接頭故障"]
+    ]
+  },
+
+  B1: {
+    code: "B1",
+    title: "B區單點異常",
+    text: "請將不熱的B區捲心，改插到A區正常孔位測試。",
+    options: [
+      ["R_B_PORT", "插到A區後會熱，代表原B區孔位／接口異常"],
+      ["B1_2", "插到A區後仍不熱"],
+      ["B1_3", "換另一條線後恢復正常"]
+    ]
+  },
+  B1_2: {
+    code: "B1-01",
+    title: "換孔後仍不熱",
+    text: "請再拿一顆已確認會熱的捲心，插回原B區孔位測試。",
+    options: [
+      ["R_ROD", "正常捲心會熱，代表原捲心本體故障"],
+      ["R_B_PORT", "正常捲心也不熱，代表B區孔位／接口故障"]
+    ]
+  },
+  B1_3: {
+    code: "B1-02",
+    title: "換線後恢復",
+    text: "問題多半在線材或分接頭。",
+    options: [
+      ["R_CABLE", "判定為線材／分接頭故障"]
+    ]
+  },
+
+  MIX1: {
+    code: "M1",
+    title: "多點零星異常",
+    text: "若A/B兩區都有不同捲心不熱，通常要分開交叉測試。",
+    options: [
+      ["R_MULTI_ROD", "多顆捲心換孔後仍不熱"],
+      ["R_MULTI_CABLE", "多條線材換線後恢復"],
+      ["R_REPAIR_MAIN", "孔位交叉測試結果混亂，建議送修檢測"]
+    ]
+  },
+
+  P4: {
+    code: "P4",
+    title: "使用中突然停止",
+    text: "先判斷是否為過熱保護、保險絲或接觸不良。",
+    options: [
+      ["R_OVERHEAT", "靜置10–15分鐘後恢復正常"],
+      ["R_FUSE_CHECK", "再次使用後又斷，請檢查保險絲"],
+      ["R_POWER_CORD", "移動電線時會忽然通電或斷電"]
+    ]
+  }
+};
+
+const results = {
+  R_P1_SOCKET: ["S1", "插座／延長線供電問題", "請更換穩定插座，避免與高耗電設備共用延長線。", "ok"],
+  R_MAIN_FUSE: ["F0", "主機保險絲異常", "可能為主保險絲燒毀、鬆脫或氧化。請停止使用並更換相同規格保險絲，若更換後再次燒毀，需送修。", "warn"],
+  R_SWITCH: ["SW0", "電源開關異常", "可能為開關接點故障、卡住或內部接觸不良。建議送修檢測。", "danger"],
+  R_POWER_CORD: ["PW0", "電源線／插頭異常", "可能為電線內芯斷裂、插頭鬆動、壓傷或接觸不良。請停止使用並送修或更換電源線。", "danger"],
+  R_REPAIR_MAIN: ["M0", "主機端異常，建議送修", "外部供電、線材與捲心無法明確排除時，建議送修檢測主機、開關、主板與內部線路。", "danger"],
+  R_REPAIR_MAIN_HEAT: ["M1", "主控板／加熱總輸出異常", "主機有通電但A/B兩區完全不加熱，可能為主控板、總輸出或內部保護元件異常。建議送修。", "danger"],
+  R_A_FUSE: ["FA", "A區保險絲異常", "A區有2顆保險絲，請檢查是否燒毀、鬆脫或氧化。更換後若再次燒毀，需送修。", "warn"],
+  R_B_FUSE: ["FB", "B區保險絲異常", "B區有2顆保險絲，請檢查是否燒毀、鬆脫或氧化。更換後若再次燒毀，需送修。", "warn"],
+  R_A_ZONE: ["AZ0", "A區總輸出異常", "A區4條線全部不熱，但B區正常時，可能為A區保險絲座、A區輸出線路或A區控制端故障。", "danger"],
+  R_B_ZONE: ["BZ0", "B區總輸出異常", "B區4條線全部不熱，但A區正常時，可能為B區保險絲座、B區輸出線路或B區控制端故障。", "danger"],
+  R_A_PORT: ["AP0", "A區孔位／接口異常", "同一顆捲心換到B區會熱，表示捲心正常，問題在A區原孔位、端子或該孔線路。", "danger"],
+  R_B_PORT: ["BP0", "B區孔位／接口異常", "同一顆捲心換到A區會熱，表示捲心正常，問題在B區原孔位、端子或該孔線路。", "danger"],
+  R_ROD: ["R0", "捲心本體故障", "同一顆捲心換到其他正常孔位仍不熱，通常為捲心內部發熱絲或接頭故障。處理方式：丟棄該捲心並更換新品。", "warn"],
+  R_CABLE: ["C0", "線材／分接頭故障", "換線後恢復正常，代表原本線材、分接頭或端子接觸不良。處理方式：更換新的線材／接口線。", "warn"],
+  R_MULTI_ROD: ["R2", "多顆捲心故障", "多顆捲心換到正常孔位仍不熱，可能為多顆捲心本體損壞。請逐一標記故障捲心。", "warn"],
+  R_MULTI_CABLE: ["C2", "多條線材故障", "多條線材更換後恢復，代表線材耗損或分接頭接觸不良。建議批次檢查線材。", "warn"],
+  R_OVERHEAT: ["OH0", "疑似過熱保護", "靜置後恢復，可能為過熱保護或使用環境散熱不良。請避免長時間高負載連續使用。", "warn"],
+  R_FUSE_CHECK: ["F1", "反覆斷電，需檢查保險絲", "若恢復後再次停止，請檢查開關、A/B區保險絲與主保險絲；若保險絲反覆燒毀，請勿繼續使用。", "danger"]
+};
+
+let history = [];
+
+function render(id) {
+  const app = document.getElementById("app");
+
+  if (results[id]) {
+    const [code, title, text, type] = results[id];
+    history.push(code + " " + title);
+    app.className = "card " + type;
+    app.innerHTML = `
+      <h2><span class="code">${code}</span>${title}</h2>
+      <div class="result">判定結果</div>
+      <p>${text}</p>
+      <div class="note">
+        <strong>建議客服紀錄：</strong><br>
+        代號：${code}<br>
+        問題：${title}<br>
+        處理：${text}
+      </div>
+      <div class="path">判斷路徑：${history.join(" → ")}</div>
+      <div class="actions">
+        <button class="primary" onclick="restart()">重新開始</button>
+        <button onclick="goBack()">回上一步</button>
+      </div>
+    `;
+    updateRecord(code, title, text);
+    return;
+  }
+
+  const n = nodes[id];
+  history.push(n.code + " " + n.title);
+  app.className = "card";
+  app.innerHTML = `
+    <h2><span class="code">${n.code}</span>${n.title}</h2>
+    <p>${n.text}</p>
+    <div class="options">
+      ${n.options.map(o => `<button onclick="render('${o[0]}')">${o[1]}</button>`).join("")}
+    </div>
+    <div class="path">目前路徑：${history.join(" → ")}</div>
+    <div class="actions">
+      ${history.length > 1 ? `<button onclick="goBack()">回上一步</button>` : ""}
+      <button onclick="restart()">重新開始</button>
+    </div>
+  `;
+  updateRecord();
+}
+
+function restart() {
+  history = [];
+  document.getElementById("record").value = "";
+  render("START");
+}
+
+function goBack() {
+  history.pop();
+  history.pop();
+  const last = history.length ? history[history.length - 1].split(" ")[0] : "S0";
+  const map = {};
+  Object.keys(nodes).forEach(k => map[nodes[k].code] = k);
+  render(map[last] || "START");
+}
+
+function updateRecord(code="", title="", text="") {
+  const record = document.getElementById("record");
+  if (code) {
+    record.value =
+`故障排除紀錄
+判定代號：${code}
+判定結果：${title}
+處理建議：${text}
+
+判斷路徑：
+${history.join(" → ")}`;
+  } else {
+    record.value = `目前判斷路徑：\n${history.join(" → ")}`;
+  }
+}
+
+function copyRecord() {
+  const record = document.getElementById("record");
+  record.select();
+  document.execCommand("copy");
+  alert("已複製客服紀錄");
+}
+
+restart();
+</script>
+</body>
+</html>
